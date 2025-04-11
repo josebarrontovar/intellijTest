@@ -18,15 +18,15 @@ public class producController {
     @Autowired
     private IProductService iProductService;
 
-  @GetMapping("/products")
-    public List<Product> list(){
+    @GetMapping("/products")
+    public List<Product> list() {
         return iProductService.findAll();
     }
 
-   @GetMapping("/id")
-    public ResponseEntity<?> view(int id){
-        Optional<Product> prodOp= iProductService.findById(id);
-        if(prodOp.isPresent()){
+    @GetMapping("/id")
+    public ResponseEntity<?> view(int id) {
+        Optional<Product> prodOp = iProductService.findById(id);
+        if (prodOp.isPresent()) {
             return ResponseEntity.ok(prodOp.get());
         }
 
@@ -35,23 +35,29 @@ public class producController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Product> create(@RequestBody Product product){
+    public ResponseEntity<Product> create(@RequestBody Product product) {
+        return ResponseEntity.status(HttpStatus.CREATED).body((iProductService.save(product)));
+    }
+
+    //crea un nuevo producto en un api postmapping createProduct2
+    @PostMapping("/createProduct2")
+    public ResponseEntity<Product> createProduct2(@RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).body((iProductService.save(product)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> update(@PathVariable int id, @RequestBody Product product){
+    public ResponseEntity<Product> update(@PathVariable int id, @RequestBody Product product) {
         product.setId(id);
         return ResponseEntity.status(HttpStatus.CREATED).body((iProductService.save(product)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Product> delete(@PathVariable int id){
-       Optional<Product> prodOp= iProductService.delete(id);
-       if(prodOp.isPresent()){
-           return ResponseEntity.ok(prodOp.get());
-       }
-       return ResponseEntity.notFound().build();
+    public ResponseEntity<Product> delete(@PathVariable int id) {
+        Optional<Product> prodOp = iProductService.delete(id);
+        if (prodOp.isPresent()) {
+            return ResponseEntity.ok(prodOp.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
 
