@@ -7,6 +7,4 @@ import java.util.List;
 
 public interface IProductRepository extends CrudRepository<Product,Integer> {
 
-
- List<Product> findByAgeLessThan(int age);
 }
